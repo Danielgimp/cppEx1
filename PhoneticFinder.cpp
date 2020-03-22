@@ -24,7 +24,7 @@ namespace phonetic
             tempText.at(i)=tolower(c);
         }
         if (tempText.find(word) != string::npos) { //locate word again
-            cout << text.substr(text.find(word),word.length()) << '\n';
+            cout << tempText.substr(tempText.find(word),word.length()) << '\n';
         }      
         return "Not Yet Implemented";    
     }
