@@ -9,7 +9,8 @@ namespace phonetic
     
     string find(string text,string word)
     {
-        string tempText=text;         
+        string tempText=text;
+        string returnStr;             
         if (text.find(word) != string::npos) { //locate word 
             cout << text.substr(text.find(word),word.length()) << '\n';
         }
@@ -24,9 +25,10 @@ namespace phonetic
             tempText.at(i)=tolower(c);
         }
         if (tempText.find(word) != string::npos) { //locate word again
-            cout << tempText.substr(tempText.find(word),word.length()) << '\n';
-        }      
-        return "Not Yet Implemented";    
+            //cout << tempText.substr(tempText.find(word),word.length()) << '\n';
+            returnStr=tempText.substr(tempText.find(word),word.length());
+        }     
+        return returnStr;    
     }
 }
 
