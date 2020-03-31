@@ -9,14 +9,14 @@ namespace phonetic
 {
         
     string replaceChar(string before,char from,char to)
-    {       
-        string returnStr;
+    { 
+        string returnStr;     
         replace( before.begin(), before.end(), from, to);
             int found = before.find(before);
             if (found != string::npos) 
             {
                 
-                string returnStr=before.substr(found,before.size()); 
+                returnStr=before.substr(found,before.size()); 
                 return returnStr;  
             }
             return returnStr;
@@ -35,10 +35,6 @@ namespace phonetic
     string find(string text,string word)
     {
         if(word.length()>text.length()) throw "No Such Word!";
-        for(int i=0;i<word.length();i++)
-        {
-            if(word.at(i) <'A' || word.at(i)>'z') throw "No Such Word!";
-        }
         string tmpText=text,tmpWord=word;
         for (int i = 0; i < text.length(); i++) 
         { 
@@ -104,5 +100,3 @@ namespace phonetic
           
     }
 }
-
-
