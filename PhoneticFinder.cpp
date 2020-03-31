@@ -9,7 +9,7 @@ namespace phonetic
 {
         
     string replaceChar(string before,char from,char to)
-    {
+    {       
         replace( before.begin(), before.end(), from, to);
             int found = before.find(before);
             if (found != string::npos) 
@@ -32,6 +32,7 @@ namespace phonetic
     }
     string find(string text,string word)
     {
+        if(word>text.length) throw "No Such Word!";
         string tmpText=text,tmpWord=word;
         for (int i = 0; i < text.length(); i++) 
         { 
