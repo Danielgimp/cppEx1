@@ -16,7 +16,7 @@ namespace phonetic
             if (found != string::npos) 
             {
                 
-                returnStr=before.substr(found,before.size()); 
+                string returnStr=before.substr(found,before.size()); 
                 return returnStr;  
             }
             return returnStr;
