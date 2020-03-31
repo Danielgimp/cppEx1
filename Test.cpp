@@ -9,8 +9,8 @@ using namespace std;
 
 TEST_CASE("Test replacement of p and b") {
     string text = "xxx happy yyy";
-    CHECK(find(text, "happy") == string("happy"));
-    CHECK(find(text, "habby") == string("happy"));
+    CHECK(find(text, "happy") =="happy");
+    CHECK(find(text, "habby") == "happy");
     CHECK(find(text, "hapby") == string("happy"));
     CHECK(find(text, "habpy") == string("happy"));
     CHECK(find(text,"haPPy")==string("happy"));
