@@ -2,101 +2,92 @@
 #include <string>
 #include <stdexcept>
 #include <algorithm>
+#include <vector>
 #include "PhoneticFinder.hpp"
 using namespace std;
-
+int wordIndex=-1;
 namespace phonetic
 {
-        
-    string replaceChar(string before,char from,char to)
-    { 
-        string returnStr;     
-        replace( before.begin(), before.end(), from, to);
-            int found = before.find(before);
-            if (found != string::npos) 
-            {
-                
-                returnStr=before.substr(found,before.size()); 
-                return returnStr;  
-            }
-            return returnStr;
+    bool wordinText(vector<string> text,string word)
+    {
+        for(int i=0;i<text.size();i++)
+        {             
+             if(text[i].compare(word)==0)
+             {
+                 wordIndex=i;                 
+                 return true;
+             }
+             
+        }                  
+        return false;
     }
 
-    string isFound(string Text,string Word)
-    {
-        int found=Text.find(Word);
-        if (found != string::npos) 
-        {
-        string returnStr=Text.substr(found,Word.size()); 
-        return returnStr;  
-        }
-        else return "-1";
-    }
+    string returnWordfromText(vector<string> text,int i) { return text[i]; }        
+    
     string find(string text,string word)
     {
-        if(word.length()>text.length()) throw "No Such Word!";
-        string tmpText=text,tmpWord=word;
-        for (int i = 0; i < text.length(); i++) 
-        { 
-                if (text.at(i) >= 'A' || text.at(i) <= 'Z')
-                { 
-                    tmpText.at(i)=tolower(text.at(i));
-                }
-                else
-                {
-                tmpText.at(i)=text.at(i);
-                }
-        }
-        for (int i = 0; i < word.length(); i++) 
-        { 
-                if (word.at(i) >= 'A' || word.at(i) <= 'Z')
-                { 
-                    tmpWord.at(i)=tolower(word.at(i));
-                }
-                else
-                {
-                tmpWord.at(i)=word.at(i);
-                }
-        }
-        if(isFound(tmpText,tmpWord).compare("-1")) return isFound(tmpText,tmpWord);
-        string returnStr;                
-        if(tmpWord.find('t')!=string::npos)
+        string returnStr="";
+        if(word.length()>text.length() || text.length()==0 || word.length()==0) throw invalid_argument( "Criterias Aren't met!" );
+        vector<string> regularTextVector; //regular text vector
+        string regularTextTemp="";
+        for(int i=0;i<text.length();i++) //put the regular case text to a vector
         {
-            returnStr=replaceChar(tmpWord,'t','d');
-            if(isFound(tmpText,returnStr).compare("-1") !=0) tmpText = isFound(tmpText,returnStr);
-        }
-        if(tmpWord.find('d')!=string::npos)
-        {
-            returnStr=replaceChar(tmpWord,'d','t');
-            if(isFound(tmpText,returnStr).compare("-1") !=0) tmpText = isFound(tmpText,returnStr);
+            if(text.at(i)==' ')
+            {                
+                regularTextVector.push_back(regularTextTemp);
+                regularTextTemp="";
+            } 
+            else regularTextTemp=regularTextTemp+text.at(i);
+            if((i+1)==text.length())
+            {                
+                regularTextTemp+=text.at(i);
+                regularTextVector.push_back(regularTextTemp);
+            }
         }
 
-         if(tmpWord.find('v')!=string::npos)
+        string lowercase=""; //lowercase text
+        for(int i=0;i<text.length();i++) //lower case the text
         {
-           returnStr=replaceChar(tmpWord,'v','w');
-           if(isFound(tmpText,returnStr).compare("-1") !=0) tmpText = isFound(tmpText,returnStr);
+            char c=text.at(i);
+            lowercase+=tolower(c);
+            
         }
-        if(tmpWord.find('w')!=string::npos)
+        
+
+        string lowercaseWord=""; //lower case word
+        for(int i=0;i<word.length();i++) //lower case the word
         {
-           returnStr=replaceChar(tmpWord,'w','v');
-           if(isFound(tmpText,returnStr).compare("-1") !=0) tmpText = isFound(tmpText,returnStr);
-           
+            char c=word.at(i);
+            lowercaseWord+=tolower(c);
+            
         }
 
-         if(tmpWord.find('i')!=string::npos)
+        vector<string> lowercaseTextVector; //lowercasevector
+        string lowercaseText="";
+        for(int i=0;i<lowercase.length();i++) //put the lower case text to a vector
         {
-            returnStr=replaceChar(tmpWord,'i','y');
-            if(isFound(tmpText,returnStr).compare("-1") !=0) tmpText = isFound(tmpText,returnStr);
-        }
-        if(tmpWord.find('y')!=string::npos)
-        {
-            
-            returnStr=replaceChar(returnStr,'y','i');
-            if(isFound(tmpText,returnStr).compare("-1") !=0) tmpText = isFound(tmpText,returnStr);
-            
-        }
-                
-        return tmpText;
+            if(lowercase.at(i)==' ')
+            {                
+                lowercaseTextVector.push_back(lowercaseText);
+                lowercaseText="";
+            } 
+            else lowercaseText=lowercaseText+lowercase.at(i);
+            if((i+1)==lowercase.length())
+            {
+                regularTextTemp+=text.at(i);
+                regularTextVector.push_back(regularTextTemp);
+            }
+        }        
+        bool ret=wordinText(lowercaseTextVector,lowercaseWord);        
+        if(ret==1) returnStr=returnWordfromText(regularTextVector,wordIndex);
+        wordIndex=-1;
+        ret=0;
+
+        
+
+
+
+        return returnStr;
           
     }
 }
